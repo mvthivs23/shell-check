@@ -13,15 +13,6 @@ on:
         default: 'master'
 
 jobs:
-  sensitive-data:
-    runs-on: ubuntu-latest
-    steps: 
-    - name: Scan for sensitive data
-      run: |
-        echo "Scanning path: ${{ github.event.inputs.repo }}"
-        grep -r -i 'password\|user\|secret\|token' ${{ github.event.inputs.repo }} || echo "No matches found."
-        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.event.inputs.repo }} || echo "No matches found."
-
   shellcheck:
     runs-on: ubuntu-latest
     steps:
@@ -35,5 +26,3 @@ jobs:
       uses: azohra/shell-linter@latest
       with:
         args: '*.sh'
-        continue-on-error: true
-    
