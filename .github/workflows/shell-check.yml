@@ -40,22 +40,25 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "Scanning path: ${{ github.workspace }}"
-        grep -r -i 'password\|user\|secret\|token' ${{ github.workspace }} || echo "No matches found." > sensitive_data_report.txt
-        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.workspace }} >> sensitive_data_report.txt || echo "No matches found." >> sensitive_data_report.txt
-        if [ -s sensitive_data_report.txt ]; then
-          echo "Sensitive data found."
-          # Convertir el reporte a PDF usando wkhtmltopdf
-          sudo apt-get install -y wkhtmltopdf
-          wkhtmltopdf sensitive_data_report.txt sensitive_data_report.pdf
+        echo "EScaneando datos sensibles en la shell..."
+
+        # Define the pattern to search for
+        PATTERN="PASS|PWD|PASSWORD|PSWD"
+
+        # Perform the search and count matches
+        MATCHES=$(grep -r -iE "$PATTERN" *.sh || true)
+        
+        if [ -z "$MATCHES" ]; then
+          echo "-------------------------------------"
+          echo "No se encontraron datos sensibles."
+          echo "-------------------------------------"
+
         else
-          echo "No sensitive data found."
-          echo "No sensitive data found." > sensitive_data_report.pdf
+         echo "-------------------------------------"
+         echo "-------------------------------------"
+          echo "Se encontraron datos sensibles, favor revisar:"
+          echo "$MATCHES"
+          echo "-------------------------------------"
+          echo "-------------------------------------"
+          exit 1  # Fail the job if sensitive data is found
         fi
-
-    - name: Upload PDF Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: sensitive-data-report
-        path: sensitive_data_report.pdf
-
