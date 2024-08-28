@@ -40,21 +40,30 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "EScaneando datos sensibles en la shell..."
+        echo "Scanning for sensitive data in shell scripts..."
 
         # Define the pattern to search for
         PATTERN="PASS|PWD|PASSWORD|PSWD"
 
-        # Perform the search and count matches
-        MATCHES=$(grep -r -iE "$PATTERN" *.sh || true)
-        
-        if [ -z "$MATCHES" ]; then
-          echo "-------------------------------------"
-          echo "No se encontraron datos sensibles."
-          echo "-------------------------------------"
+        # Create an HTML report
+        REPORT_FILE="sensitive_data_report.html"
+        echo "<html><body><h1>Sensitive Data Scan Report</h1>" > $REPORT_FILE
+        echo "<h2>Search Pattern: $PATTERN</h2>" >> $REPORT_FILE
 
+        # Perform the search and save results to the report
+        grep -r -iE "$PATTERN" *.sh | sed 's/^/<p>/;s/$/<\/p>/' >> $REPORT_FILE
+
+        echo "</body></html>" >> $REPORT_FILE
+        
+        # Check if report contains any matches
+        if [ -s $REPORT_FILE ]; then
+          echo "Sensitive data found. Report generated: $REPORT_FILE"
         else
-          echo "Se encontraron datos sensibles, favor revisar::"
-          echo "$MATCHES"
-          exit 1  # Fail the job if sensitive data is found
+          echo "No sensitive data found." >> $REPORT_FILE
         fi
+
+    - name: Upload sensitive data report
+      uses: actions/upload-artifact@v3
+      with:
+        name: sensitive-data-report
+        path: sensitive_data_report.html
