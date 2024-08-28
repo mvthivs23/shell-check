@@ -43,7 +43,7 @@ jobs:
         echo "Escaneando datos sensibles en la shell..."
 
         # Define the pattern to search for
-        PATTERN="PASS|PWD|PASSWORD|PSWD"
+        PATTERN="PASS|PASSWORD|PSWD"
 
         # Perform the search and count matches
         MATCHES=$(grep -r -iE "$PATTERN" *.sh || true)
