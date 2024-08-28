@@ -11,12 +11,43 @@ on:
 jobs:
   shellcheck:
     runs-on: ubuntu-latest
+    outputs:
+      shellcheck_status: ${{ steps.shellcheck.outputs.status }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
         ref: ${{ github.event.inputs.branch }}
     - name: Run ShellCheck
-      uses: azat-ai/shellcheck-action@v0.1.0
+      id: shellcheck
+      uses: azohra/shell-linter@latest
       with:
         args: '*.sh'
+    - name: Capture ShellCheck Output
+      id: capture_output
+      run: |
+        if [ -f shellcheck-output.txt ]; then
+          cat shellcheck-output.txt
+          echo "::set-output name=status::success"
+        else
+          echo "ShellCheck failed or output file not found."
+          echo "::set-output name=status::failure"
+          exit 1
+        fi
+
+  generate_report:
+    runs-on: ubuntu-latest
+    needs: shellcheck
+    if: needs.shellcheck.outputs.shellcheck_status == 'success'
+    steps:
+    - name: Generate Report
+      run: |
+        echo "Generating report..."
+        # Aquí puedes usar cualquier comando para crear un reporte basado en los resultados de ShellCheck.
+        echo "ShellCheck passed successfully." > report.txt
+    - name: Upload Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: shellcheck-report
+        path: report.txt
+    
