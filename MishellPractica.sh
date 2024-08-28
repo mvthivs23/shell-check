@@ -1,15 +1,31 @@
 #!/bin/bash
 
-directorio_actual=$(pwd)
+# Este es un script bash de ejemplo
 
-echo "Te encuentras en la ruta: $directorio_actual"
+# Variables
+DIRECTORY="/path/to/directory"
+USERNAME="admin"
 
-sleep 1
+# Función para verificar si el directorio existe
+check_directory() {
+  if [ -d "$DIRECTORY" ]; then
+    echo "El directorio $DIRECTORY existe."
+  else
+    echo "El directorio $DIRECTORY no existe."
+  fi
+}
 
-echo "Te cambiare a la ruta de documentos:"
+# Función para saludar al usuario
+greet_user() {
+  echo "Hola, $USERNAME!"
+}
 
-cd /home/mathias/Documentos
+# Código comentado que ya no se utiliza pero permanece en el script
+# old_function() {
+#   echo "Esta es una función antigua que no se utiliza."
+#   rm -rf /some/old/path
+# }
 
-directorio_actual=$(pwd)
-
-echo "Te encuentras en la ruta: $directorio_actual"
+# Llamadas a las funciones
+check_directory
+greet_user
