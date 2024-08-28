@@ -25,27 +25,4 @@ jobs:
     - name: Run ShellCheck
       uses: azohra/shell-linter@latest
       with:
-         args: '${{ github.event.inputs.path }}/*.sh'
-      continue-on-error: true
-
-  sensitive-data:
-    runs-on: ubuntu-latest
-    needs: shellcheck
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        repository: ${{ github.event.inputs.repo }}
-        ref: ${{ github.event.inputs.branch }}
-        token: ${{ secrets.TOKEN_ACTIONS }}
-
-    - name: Scan for sensitive data
-      run: |
-        echo "Scanning repo: ${{ github.event.inputs.repo }}"
-        grep -r -i 'password\|user\|secret\|token' . || echo "No matches found."
-        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' . || echo "No matches found."
-    
-    - name: Check for hard-coded variables
-      run: |
-        echo "Scanning for hard-coded variables..."
-        grep -r -E '\b(PASS|PASSWORD|PASWD|PWD|PWDS)\b' . || echo "No hard-coded variables found."
+        args: '${{ github.event.inputs.path }}/*.sh'
