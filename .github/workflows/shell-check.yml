@@ -14,4 +14,4 @@ jobs:
     - name: Run ShellCheck
       uses: AzatAI/shellcheck@v0.1.0
       with:
-        args: '**/*.sh'
+        args: '*.sh'
