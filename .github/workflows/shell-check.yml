@@ -40,7 +40,7 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "EScaneando datos sensibles en la shell..."
+        echo "Escaneando datos sensibles en la shell..."
 
         # Define the pattern to search for
         PATTERN="PASS|PWD|PASSWORD|PSWD"
