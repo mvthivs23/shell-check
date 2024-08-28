@@ -19,7 +19,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        repository: BANCO-main/${{ github.event.inputs.repo }}
+        repository: mvthivs23/${{ github.event.inputs.repo }}
         ref: ${{ github.event.inputs.branch }}
         token: ${{ secrets.TOKEN_ACTIONS }} # Usar el PAT configurado
     - name: Run ShellCheck
