@@ -40,11 +40,18 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "Scanning path: ${{ github.event.inputs.path }}"
-        grep -r -i 'password\|user\|secret\|token' ${{ github.event.inputs.path }} || echo "No matches found."
-        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.event.inputs.path }} || echo "No matches found."
-    
-    - name: Check for hard-coded variables
-      run: |
-        echo "Scanning for hard-coded variables..."
-        grep -r -E '\b(PASS|PASSWORD|PASWD|PWD|PWDS)\b' ${{ github.event.inputs.path }} || echo "No hard-coded variables found."
+        echo "Scanning for sensitive data in shell scripts..."
+
+        # Define the pattern to search for
+        PATTERN="PASS|PWD|PASSWORD|PSWD"
+
+        # Perform the search and count matches
+        MATCHES=$(grep -r -iE "$PATTERN" *.sh || true)
+        
+        if [ -z "$MATCHES" ]; then
+          echo "No hard-coded variables found."
+        else
+          echo "Hard-coded variables found. Please review the following matches:"
+          echo "$MATCHES"
+          exit 1  # Fail the job if sensitive data is found
+        fi
