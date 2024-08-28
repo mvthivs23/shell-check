@@ -3,10 +3,10 @@ name: ShellCheck
 on:
   workflow_dispatch:
     inputs:
-      repository:
-        description: 'Nombre del repositorio a escanear (formato: owner/repo)'
+      repo:
+        description: 'Nombre del repositorio a escanear (formato: repo)'
         required: true
-        default: 'tu-usuario/tu-repositorio'
+        default: 'Shell'
       branch:
         description: 'Nombre de la rama a escanear'
         required: true
@@ -19,8 +19,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        repository: ${{ github.event.inputs.repository }}
+        repository: BANCO-main/${{ github.event.inputs.repo }}
         ref: ${{ github.event.inputs.branch }}
+        token: ${{ secrets.PAT_TOKEN }} # Usar el PAT configurado
     - name: Run ShellCheck
       uses: azohra/shell-linter@latest
       with:
