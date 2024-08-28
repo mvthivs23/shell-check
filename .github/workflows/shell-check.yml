@@ -40,7 +40,7 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "Scanning for sensitive data in shell scripts..."
+        echo "EScaneando datos sensibles en la shell..."
 
         # Define the pattern to search for
         PATTERN="PASS|PWD|PASSWORD|PSWD"
@@ -49,9 +49,12 @@ jobs:
         MATCHES=$(grep -r -iE "$PATTERN" *.sh || true)
         
         if [ -z "$MATCHES" ]; then
-          echo "No hard-coded variables found."
+          echo "-------------------------------------"
+          echo "No se encontraron datos sensibles."
+          echo "-------------------------------------"
+
         else
-          echo "Hard-coded variables found. Please review the following matches:"
+          echo "Se encontraron datos sensibles, favor revisar::"
           echo "$MATCHES"
           exit 1  # Fail the job if sensitive data is found
         fi
