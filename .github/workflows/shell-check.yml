@@ -21,7 +21,7 @@ jobs:
       with:
         repository: BANCO-main/${{ github.event.inputs.repo }}
         ref: ${{ github.event.inputs.branch }}
-        token: ${{ secrets.PAT_TOKEN }} # Usar el PAT configurado
+        token: ${{ secrets.TOKEN_ACTIONS }} # Usar el PAT configurado
     - name: Run ShellCheck
       uses: azohra/shell-linter@latest
       with:
