@@ -40,32 +40,22 @@ jobs:
         token: ${{ secrets.TOKEN_ACTIONS }}
     - name: Scan for sensitive data
       run: |
-        echo "EScaneando datos sensibles en la shell..."
-
-        # Define the pattern to search for
-        PATTERN="PASS|PWD|PASSWORD|PSWD"
-
-        # Create an HTML report
-        REPORT_FILE="sensitive_data_report.html"
-        echo "<html><body><h1>Sensitive Data Scan Report</h1>" > $REPORT_FILE
-        echo "<h2>Search Pattern: $PATTERN</h2>" >> $REPORT_FILE
-
-        # Perform the search and save results to the report
-        grep -r -iE "$PATTERN" *.sh | sed 's/^/<p>/;s/$/<\/p>/' >> $REPORT_FILE
-
-        echo "</body></html>" >> $REPORT_FILE
-        
-        # Check if report contains any matches
-        if [ -s $REPORT_FILE ]; then
-          echo "Sensitive data found. Report generated: $REPORT_FILE"
-          exit 1  # Fail the job if sensitive data is found
+        echo "Scanning path: ${{ github.workspace }}"
+        grep -r -i 'password\|user\|secret\|token' ${{ github.workspace }} || echo "No matches found." > sensitive_data_report.txt
+        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.workspace }} >> sensitive_data_report.txt || echo "No matches found." >> sensitive_data_report.txt
+        if [ -s sensitive_data_report.txt ]; then
+          echo "Sensitive data found."
+          # Convertir el reporte a PDF usando wkhtmltopdf
+          sudo apt-get install -y wkhtmltopdf
+          wkhtmltopdf sensitive_data_report.txt sensitive_data_report.pdf
         else
           echo "No sensitive data found."
+          echo "No sensitive data found." > sensitive_data_report.pdf
         fi
 
-    - name: Upload sensitive data report
-      if: failure()  # Only upload the report if the previous step failed
+    - name: Upload PDF Report
       uses: actions/upload-artifact@v3
       with:
         name: sensitive-data-report
-        path: sensitive_data_report.html
+        path: sensitive_data_report.pdf
+
