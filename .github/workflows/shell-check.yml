@@ -29,5 +29,5 @@ jobs:
     - name: Scan for sensitive data
       run: |
         echo "Scanning path: ${{ github.event.inputs.path }}"
-        grep -r -i 'password\|user\|secret\|token' ${{ github.event.inputs.path }}
-        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.event.inputs.path }}     
+        grep -r -i 'password\|user\|secret\|token' ${{ github.event.inputs.path }} || echo "No matches found."
+        grep -r -iE '([\'\"].*password.*[\'\"]|[\'\"].*user.*[\'\"]|[\'\"].*secret.*[\'\"]|[\'\"].*token.*[\'\"])' ${{ github.event.inputs.path }} || echo "No matches found."
