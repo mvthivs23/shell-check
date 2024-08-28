@@ -6,11 +6,9 @@ on:
       repo:
         description: 'Nombre del repositorio a escanear (formato: repo)'
         required: true
-        default: 'Shell'
       branch:
         description: 'Nombre de la rama a escanear'
         required: true
-        default: 'master'
 
 jobs:
   shellcheck:
