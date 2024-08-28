@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       repository:
-        description: 'URL del repositorio a escanear'
+        description: 'Nombre del repositorio a escanear (formato: owner/repo)'
         required: true
-        default: 'https://github.com/tu-usuario/tu-repositorio'
+        default: 'tu-usuario/tu-repositorio'
       branch:
         description: 'Nombre de la rama a escanear'
         required: true
