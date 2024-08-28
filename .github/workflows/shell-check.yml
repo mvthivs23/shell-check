@@ -1,9 +1,12 @@
 name: ShellCheck
 
-on: 
- push:
-  branches: ["main"]
-
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Nombre de la rama a escanear'
+        required: true
+        default: 'master'
 
 jobs:
   shellcheck:
@@ -11,7 +14,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.inputs.branch }}
     - name: Run ShellCheck
-      uses: AzatAI/shellcheck@v0.1.0
+      uses: azat-ai/shellcheck-action@v0.1.0
       with:
         args: '*.sh'
