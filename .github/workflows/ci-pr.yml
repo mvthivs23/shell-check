@@ -3,7 +3,7 @@ on: [pull_request]
 jobs:
   shell-check:
     runs-on: ubuntu-latest
-    name: Shell Checker
+    name: Shell Checkers
     steps:
       - uses: actions/checkout@v2
       - uses: marounmaroun/shell-checker@v1
