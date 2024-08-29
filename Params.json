@@ -1,0 +1,16 @@
+{
+    "name": "Mathias",
+    "age": 25,
+    "isDeveloper": true,
+    "skills": [
+      "DevOps",
+      "Shell Scripting",
+      "GitHub Actions",
+      "Python"
+    ],
+    "address": {
+      "city": "Santiago",
+      "country": "Chile"
+    }
+  }
+  
