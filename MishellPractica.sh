@@ -25,6 +25,7 @@ greet_user() {
 #   echo "Esta es una función antigua que no se utiliza."
 #   rm -rf /some/old/path
 # }
+# }
 
 # Llamadas a las funciones
 check_directory
