@@ -23,6 +23,7 @@ greet_user() {
 # Código comentado que ya no se utiliza pero permanece en el script
 # old_function() {
 #   echo "Esta es una función antigua que no se utiliza."
+
 #   rm -rf /some/old/path
 # }
 # }
