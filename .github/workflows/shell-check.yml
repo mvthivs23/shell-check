@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        description: 'Nombre del repositorio a escanear (formato: repo)'
+        description: 'Nombre del repositorio a escanear (formato: repo)' feature
         required: true
       branch:
         description: 'Nombre de la rama a escanear'
