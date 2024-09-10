@@ -1,10 +1,14 @@
 name: ShellCheck
 
 on:
+  push:
+    branches:
+      - feature/*
+      
   workflow_dispatch:
     inputs:
       repo:
-        description: 'Nombre del repositorio a escanear (formato: repo)' feature
+        description: 'Nombre del repositorio a escanear (formato: repo)'
         required: true
       branch:
         description: 'Nombre de la rama a escanear'
