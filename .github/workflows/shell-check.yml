@@ -1,6 +1,9 @@
 name: ShellCheck
 
 on:
+  push:
+    branches:
+      - feature/*
   workflow_dispatch:
     inputs:
       repo:

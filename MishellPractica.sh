@@ -15,7 +15,7 @@ check_directory() {
   fi
 }
 
-# Función para saludar al usuario
+# Función para saludar al usuario C:
 greet_user() {
   echo "Hola, $USERNAME!"
 }
